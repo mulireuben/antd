@@ -1,23 +1,29 @@
 import 'antd/dist/antd.css';
 import './App.css';
-import { Layout } from 'antd';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import Layout from './Layout/Layout';
+import Mypage from './Components/Mainpage/Mypage';
 import Patientform from './Components/Patientform';
-import MyPage from '../src/Components/Mypage';
+
+const routes = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      {
+        index: true,
+        element: <Mypage />,
+      },
+      {
+        path: '/patientform',
+        element: <Patientform />,
+      },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <Router>
-      <div className='App'>
-        <>
-          <Routes>
-            <Route path='/' exact Component={MyPage} />
-            <Route path='/Patient-form' Component={Patientform} />
-          </Routes>
-        </>
-      </div>
-    </Router>
-  );
+  return <RouterProvider router={routes} />;
 }
 
 export default App;

@@ -9,9 +9,12 @@ import {
   Row,
   Col,
   Icon,
+  Typography,
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import './Mypage.css';
+const { Title } = Typography;
 
 const { Content } = Layout;
 const { Option } = Select;
@@ -162,9 +165,11 @@ const columns = [
 
 const MyPage = () => {
   return (
-    <>
-      <PageHeader title='Patient Master Register' />
-      <Content style={{ padding: '0 20px' }}>
+    <div className='mypage-container'>
+      <PageHeader className='mypage-heading'>
+        <Title level={3}>Patient Master Register</Title>
+      </PageHeader>
+      <Content style={{ padding: '0px 20px 20px 20px' }}>
         <Row gutter={[20]}>
           <Col span={6}>
             {/* <div style={{ marginBottom: 16 }}> */}
@@ -209,7 +214,7 @@ const MyPage = () => {
         {/* Table */}
         <Table dataSource={dataSource} columns={columns} size='small' />
       </Content>
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,9 @@
+.mypage-container {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+.mypage-heading {
+  background: #f4f6f4;
+  padding:  10px 20px;
+}
