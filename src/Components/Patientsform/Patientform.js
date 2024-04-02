@@ -1,4 +1,5 @@
 import React from 'react';
+import './Patientform.css';
 import {
   Divider,
   Form,

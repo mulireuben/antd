@@ -3,7 +3,7 @@ import './App.css';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import Mypage from './Components/Mainpage/Mypage';
-import Patientform from './Components/Patientform';
+import Patientform from './Components/Patientsform/Patientform';
 
 const routes = createBrowserRouter([
   {
@@ -15,7 +15,7 @@ const routes = createBrowserRouter([
         element: <Mypage />,
       },
       {
-        path: '/patientform',
+        path: 'patientform',
         element: <Patientform />,
       },
     ],
