@@ -1,0 +1,16 @@
+.content-body {
+  background: white;
+}
+.patient-header {
+  background: #f4f6f4;
+}
+
+.patient-container {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+}
+.row-1 {
+  display: flex;
+  justify-content: space-between;
+}

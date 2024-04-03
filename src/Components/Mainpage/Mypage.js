@@ -12,6 +12,7 @@ import {
   Typography,
   Menu,
   Dropdown,
+  
 } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
@@ -111,7 +112,7 @@ const MyPage = () => {
           </Col>
 
           <Col className='button-icons'>
-            <Link to='/patient-form'>
+            <Link to='/patientform'>
               <Button
                 type='primary'
                 icon={<SearchOutlined style={{ background: 'white' }} />}
