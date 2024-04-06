@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import './Patientform.css';
 import {
   Divider,
@@ -9,10 +8,11 @@ import {
   PageHeader,
   Row,
   Col,
-  Cascader,
   DatePicker,
   Button,
   Typography,
+  Upload,
+  Icon,
 } from 'antd';
 import { Link } from 'react-router-dom';
 
@@ -20,56 +20,31 @@ const { Content } = Layout;
 const { Option } = Select;
 const { Title } = Typography;
 
-const Patientform = () => {
-  const [FormData, setFormData] = useState({
-    status: '',
-    name: '',
-    aliasName: '',
-    gender: '',
-    bloodType: '',
-    age: '',
-    dob: null,
-    maritalStatus: '',
-    idNumber: '',
-    primaryContact: '',
-    residence: '',
-    religion: '',
-    nationality: '',
-    occupation: '',
-    knewUsThrough: '',
-    county: '',
-    constituency: '',
-  });
+const selectBefore = (
+  <Select defaultValue='Mr' style={{ width: 90 }}>
+    <Option value='Mr'>mr</Option>
+    <Option value='Mrs'>mrs</Option>
+  </Select>
+);
 
-  const handleInputChange = (name, value) => {
-    setFormData({ ...FormData, [name]: value });
-  };
-  const handleSubmit = () => {
-    console.log('form.data', FormData);
-  };
-  const handleClear = () => {
-    setFormData({
-      status: '',
-      name: '',
-      aliasName: '',
-      gender: '',
-      bloodType: '',
-      age: '',
-      dob: null,
-      maritalStatus: '',
-      idNumber: '',
-      primaryContact: '',
-      residence: '',
-      religion: '',
-      nationality: '',
-      occupation: '',
-      knewUsThrough: '',
-      county: '',
-      constituency: '',
+const Patientform = (props) => {
+  const { getFieldDecorator } = props.form;
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    props.form.validateFields((err, values) => {
+      if (!err) {
+        console.log('Received values of form: ', values);
+      }
     });
   };
+
+  const handleReset = () => {
+    props.form.resetFields();
+  };
+
   return (
-    <Layout>
+    <Layout className='parent-container'>
       <div className='patient-container'>
         <PageHeader className='patient-header'>
           <Title level={3}>New Patient</Title>
@@ -79,193 +54,325 @@ const Patientform = () => {
         </PageHeader>
 
         <Content className='content-body' style={{ padding: '0 20px' }}>
-          <Form layout='vertical'>
-            <Form.Item label='Status:'>
-              <Row className='row-1' gutter={16}>
-                <Col span={12}>
-                  <Select style={{ width: 200 }}>
-                    <Option value='option1'>Active</Option>
-                    <Option value='option2'>Inactive</Option>
-                  </Select>
-                </Col>
-                <Col span={12}>
-                  <Button type='danger' onClick={handleClear}>
+          <Form layout='vertical' onSubmit={handleSubmit}>
+            <Row
+              className='row-1'
+              type='flex'
+              justify='space-between'
+              gutter={16}
+            >
+              <Col span={12}>
+                <Form.Item label='Status:'>
+                  {getFieldDecorator('status', {
+                    rules: [
+                      { required: true, message: 'please select status' },
+                    ],
+                  })(
+                    <Select style={{ width: 200 }}>
+                      <Option value='option1'>Active</Option>
+                      <Option value='option2'>Inactive</Option>
+                    </Select>
+                  )}
+                </Form.Item>
+              </Col>
+
+              <Col className='clear-button' span={12}>
+                <Form.Item>
+                  <Button type='danger' htmlType='button' onClick={handleReset}>
                     Clear
                   </Button>
-                </Col>
-              </Row>
-            </Form.Item>
-          </Form>
-          <Divider />
-          <Form layout='vertical'>
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Divider />
+
             <Row gutter={16}>
-              <div>
+              <Col>
                 <Col span={6}>
                   <Form.Item label='Patient Name'>
-                    <Select
-                      value={FormData.name}
-                      onChange={(value) => handleInputChange('name', value)}
-                      style={{ width: '100%' }}
-                    >
-                      <Option value='Home'>Mr</Option>
-                      <Option value='Company'>Mrs</Option>
-                    </Select>
+                    {getFieldDecorator('name', {
+                      rules: [
+                        { required: true, message: 'please enter your name' },
+                      ],
+                    })(
+                      <div style={{ marginBottom: 16 }}>
+                        <Input addonBefore={selectBefore} />
+                      </div>
+                    )}
                   </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item label=''>
-                    <Cascader
-                      style={{ width: '100%' }}
-                      placeholder='Given Name'
-                    />
-                  </Form.Item>
-                </Col>
-                <Col span={6}>
-                  <Form.Item label=''>
-                    <Input placeholder='Middle Name' />
-                  </Form.Item>
-                </Col>
-              </div>
-              <div>
-                <Col span={6}>
                   <Form.Item label='Alias Name'>
-                    <Input placeholder='Enter Name' />
+                    {getFieldDecorator('alias name', {
+                      rules: [
+                        { required: true, message: 'please enter your name' },
+                      ],
+                    })(<Input type='name' placeholder=' enter alias Name' />)}
                   </Form.Item>
                 </Col>
                 <Col span={6}>
                   <Form.Item label='Gender'>
-                    <Select style={{ width: '100%' }}>
-                      <Option value='male'>Male</Option>
-                      <Option value='female'>Female</Option>
-                    </Select>
+                    {getFieldDecorator('name', {
+                      rules: [
+                        { required: true, message: 'please enter your name' },
+                      ],
+                    })(<Input type='name' placeholder='Enter Name' />)}
+                  </Form.Item>
+                  <Form.Item label=' username'>
+                    {getFieldDecorator('username', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'Please input your username!',
+                        },
+                      ],
+                    })(
+                      <Input
+                        prefix={
+                          <Icon
+                            type='user'
+                            style={{ color: 'rgba(0,0,0,.25)' }}
+                          />
+                        }
+                        placeholder='Username'
+                      />
+                    )}
                   </Form.Item>
                 </Col>
                 <Col span={6}>
-                  <Form.Item label='Blood Type'>
-                    <Select style={{ width: '100%' }}>
-                      <Option value='group A'>Group A</Option>
-                      <Option value='group B'>Group B</Option>
-                    </Select>
+                  <Form.Item label='middle'>
+                    {getFieldDecorator('middle name', {
+                      rules: [
+                        { required: true, message: 'please enter your name' },
+                      ],
+                    })(<Input type='name' placeholder='middle name' />)}
                   </Form.Item>
-                </Col>
 
-                <Col span={6}>
-                  <div
-                    style={{
-                      width: 100,
-                      height: 100,
-                      backgroundColor: 'lightgray',
-                    }}
-                  ></div>
+                  <Form.Item label='blood type'>
+                    {getFieldDecorator('group', {
+                      rules: [
+                        {
+                          required: true,
+                          message: 'please select your blood group',
+                        },
+                      ],
+                    })(
+                      <Select>
+                        <Option value='option1'>group B</Option>
+                        <Option value='option2'>group A</Option>
+                      </Select>
+                    )}
+                  </Form.Item>
                 </Col>
-              </div>
+              </Col>
+
+              <Col span={6}>
+                <Form.Item
+                  label={<span className='hidden-label-text'>picture</span>}
+                >
+                  {getFieldDecorator('dragger', {
+                    valuePropName: 'fileList',
+                  })(
+                    <Upload.Dragger name='files' action='/upload.do'>
+                      <p className='ant-upload-drag-icon'>
+                        <Icon type='inbox' />
+                      </p>
+                      <p className='ant-upload-text'>
+                        Click or drag file to this area to upload
+                      </p>
+                    </Upload.Dragger>
+                  )}
+                </Form.Item>
+              </Col>
             </Row>
-          </Form>
-          <Form layout='vertical'>
+
             <Row gutter={[16]}>
               <Col span={6}>
                 <Form.Item label='Age'>
-                  <Input
-                    placeholder='Enter Age'
-                    value={FormData.age}
-                    onChange={(e) => handleInputChange('age', e.target.value)}
-                  />
+                  {getFieldDecorator('Age', {
+                    rules: [
+                      { required: true, message: 'please enter your age' },
+                    ],
+                  })(<Input type='age' placeholder='yur age' />)}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='Date of Birth'>
-                  <DatePicker style={{ width: '100%' }} />
+                <Form.Item label='Date of birth'>
+                  {getFieldDecorator('date-picker')(
+                    <DatePicker style={{ width: '100%' }} />
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='Marital Status'>
-                  <Select>
-                    <Option value='status'>Married</Option>
-                    <Option value='status'>unmarried</Option>
-                  </Select>
+                <Form.Item label='marital status'>
+                  {getFieldDecorator('status', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please select your status',
+                      },
+                    ],
+                  })(
+                    <Select>
+                      <Option value='option1'>married</Option>
+                      <Option value='option2'>divorced</Option>
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='ID no/military/birth cert'>
-                  <Input placeholder='' />
+                <Form.Item label='ID/millitary card/Birthcert'>
+                  {getFieldDecorator('number', {
+                    rules: [
+                      { required: true, message: 'please enter your choice' },
+                    ],
+                  })(<Input type='' placeholder='' />)}
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-          <Form layout='vertical'>
+
             <Row gutter={[16]}>
               <Col span={6}>
-                <Form.Item label='Primary contact'>
-                  <Input placeholder='Enter contact' />
+                <Form.Item label='Primary Contact'>
+                  {getFieldDecorator('contact', {
+                    rules: [
+                      { required: true, message: 'please enter your contact' },
+                    ],
+                  })(<Input type='number' placeholder='your contact' />)}
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item label='residence'>
-                  <Input placeholder='Enter residence' />
+                  {getFieldDecorator('location', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter your residence',
+                      },
+                    ],
+                  })(<Input type='residence' placeholder='your residence' />)}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='religion'>
-                  <Select>
-                    <Option value=''>pagan</Option>
-                    <Option value=''>christian</Option>
-                    <Option value=''>muslim</Option>
-                  </Select>
+                <Form.Item label='Religion'>
+                  {getFieldDecorator('religion', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please select your religion',
+                      },
+                    ],
+                  })(
+                    <Select>
+                      <Option value='option1'>Christian</Option>
+                      <Option value='option2'>muslim</Option>
+                      <Option value='option2'>hindu</Option>
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='Nationality'>
-                  <Input placeholder='Enter Name' />
+                <Form.Item label='nationality'>
+                  {getFieldDecorator('nationality', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter your country',
+                      },
+                    ],
+                  })(<Input type='country' placeholder='country of origin' />)}
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-          <Form layout='vertical'>
+
             <Row gutter={[16]}>
               <Col span={6}>
                 <Form.Item label='Occupation'>
-                  <Select>
-                    <Option value=''>chef</Option>
-                    <Option value=''>Doctor</Option>
-                  </Select>
+                  {getFieldDecorator('occupation', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please select your occupation',
+                      },
+                    ],
+                  })(
+                    <Select>
+                      <Option value='option1'>chef</Option>
+                      <Option value='option2'>civil servant</Option>
+                      <Option value='option2'>business perrson</Option>
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
                 <Form.Item label='knew us through'>
-                  <Input placeholder='Enter Name' />
+                  {getFieldDecorator('knew us through', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please tell us',
+                      },
+                    ],
+                  })(<Input type='text' placeholder='knew us through' />)}
                 </Form.Item>
               </Col>
             </Row>
-          </Form>
-          <Form layout='vertical'>
+
             <Row gutter={[16]}>
               <Col span={6}>
-                <Form.Item label='County'>
-                  <Input placeholder='select county' />
+                <Form.Item label='county'>
+                  {getFieldDecorator('county', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter your county',
+                      },
+                    ],
+                  })(<Input type='county' placeholder='county of origin' />)}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='Constituency'>
-                  <Input placeholder='select constituency' />
+                <Form.Item label='constituency'>
+                  {getFieldDecorator('constituency', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please enter your constituency',
+                      },
+                    ],
+                  })(
+                    <Input type='place' placeholder='enter your constituency' />
+                  )}
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item label='Gender'>
-                  <Select>
-                    <Option value='male'>Male</Option>
-                    <Option value='female'>Female</Option>
-                  </Select>
+                <Form.Item label='ward'>
+                  {getFieldDecorator('ward', {
+                    rules: [
+                      {
+                        required: true,
+                        message: 'please select your ward',
+                      },
+                    ],
+                  })(
+                    <Select>
+                      <Option value='option1'>kiyuuu</Option>
+                      <Option value='option2'>kwa nugu</Option>
+                      <Option value='option2'>kwa zoo</Option>
+                    </Select>
+                  )}
                 </Form.Item>
               </Col>
             </Row>
+            <Form.Item>
+              <Button type='primary' htmlType='submit'>
+                Submit
+              </Button>
+            </Form.Item>
           </Form>
-          <Button type='primary' onClick={handleSubmit}>
-            submit
-          </Button>
         </Content>
       </div>
     </Layout>
   );
 };
 
-export default Patientform;
+export default Form.create()(Patientform);

@@ -4,6 +4,10 @@
 .patient-header {
   background: #f4f6f4;
 }
+.patient-header > div {
+  display: flex;
+  justify-content: space-between;
+}
 
 .patient-container {
   background: white;
@@ -13,4 +17,18 @@
 .row-1 {
   display: flex;
   justify-content: space-between;
+}
+.parent-container {
+  border-radius: 10px;
+}
+.row-1 {
+  display: flex;
+  justify-content: flex-start;
+}
+.hidden-label-text {
+  visibility: hidden;
+}
+.clear-button {
+  display: flex;
+  justify-content: flex-end;
 }

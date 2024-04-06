@@ -4,6 +4,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Layout from './Layout/Layout';
 import Mypage from './Components/Mainpage/Mypage';
 import Patientform from './Components/Patientsform/Patientform';
+import Praco from './Components/Praco/Praco';
 
 const routes = createBrowserRouter([
   {
@@ -17,6 +18,10 @@ const routes = createBrowserRouter([
       {
         path: 'patientform',
         element: <Patientform />,
+      },
+      {
+        path: 'Praco',
+        element: <Praco />,
       },
     ],
   },
